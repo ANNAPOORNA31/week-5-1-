@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Cities Data</title>
+    <style>
+        /* Add your CSS styling here for a better presentation */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+        }
+        .city {
+            margin-bottom: 10px;
+        }
+        .city h2 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .city p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Indian Cities Data</h1>
+    <div id="citiesList"></div>
+</div>
+
+<script>
+    // Fetch data from the provided API
+    fetch('https://api.npoint.io/7bbd3a59c401f616bb89')
+        .then(response => response.json())
+        .then(data => {
+            // Function to render city data
+            function renderCity(city) {
+                const cityElement = document.createElement('div');
+                cityElement.classList.add('city');
+                cityElement.innerHTML = `
+                    <h2>${city.name}</h2>
+                    <p>State: ${city.state}</p>
+                    <p>District: ${city.district}</p>
+                    <p>Population: ${city.population}</p>
+                    <p>Area: ${city.area} sq. km</p>
+                `;
+                return cityElement;
+            }
+
+            // Render each city
+            const citiesList = document.getElementById('citiesList');
+            data.cities.forEach(city => {
+                const cityElement = renderCity(city);
+                citiesList.appendChild(cityElement);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+</script>
+
+</body>
+</html>
